@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import csv
 import time
+from http.server import BaseHTTPRequestHandler
 
 odds_URL = "https://www.betfair.com/sport/football/scottish-premiership/105"
 fixtures_URL = "http://api.clubelo.com/Fixtures"
@@ -109,8 +110,12 @@ def summary(bet_amount=1):
     #[]
     return summary_df.head(len(summary_df)).iloc[:,[5,0,1,2,6,9,12,3,7,10,13,4,8,11,14]]
 
+class handler(BaseHTTPRequestHandler):
 
-while __name__ == "__main__":
-    with open("Index.html", "w") as file:
-        file.write(display_summary().render())
-    time.sleep(600)
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type','text/plain')
+        self.end_headers()
+        self.wfile.write(display_summary().render())
+        return
+
