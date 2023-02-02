@@ -116,6 +116,7 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type','text/plain')
         self.end_headers()
-#         self.wfile.write(display_summary().render())
-        return display_summary().render()
+        self.wfile.write(bytes(display_summary().render()), 'utf-8')
+        self.wfile.close()
+        return 
 
