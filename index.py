@@ -120,3 +120,10 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.close()
         return 
 
+try:
+    server = http.server.HTTPServer(('localhost', PORT), MyHandler)
+    print('Started http server')
+    server.serve_forever()
+except KeyboardInterrupt:
+    print('^C received, shutting down server')
+    server.socket.close()
