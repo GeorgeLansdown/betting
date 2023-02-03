@@ -116,6 +116,7 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type','text/plain')
         self.end_headers()
-        self.wfile.write(bytes(display_summary().render()), 'utf-8')
+#         self.wfile.write(bytes(display_summary().render()), 'utf-8')
+        self.wfile.write(bytes(current_prob().merge(current_odds()).to_html(), 'utf-8')
         self.wfile.close()
         return 
