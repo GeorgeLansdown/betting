@@ -109,14 +109,14 @@ def summary(bet_amount=1):
 
     #[]
     return summary_df.head(len(summary_df)).iloc[:,[5,0,1,2,6,9,12,3,7,10,13,4,8,11,14]]
-
-class handler(BaseHTTPRequestHandler):
-
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type','text/plain')
-        self.end_headers()
-#         self.wfile.write(bytes(display_summary().render()), 'utf-8')
-        self.wfile.write(bytes(current_prob().merge(current_odds()).to_html(), 'utf-8')
-        self.wfile.close()
-        return 
+                         
+def application(environ, start_response):
+    if environ.get('PATH_INFO') == '/':
+        status = '200 OK'
+        content = display_summary().render()
+    else:
+        status = '404 NOT FOUND'
+        content = 'Page not found.'
+    response_headers = [('Content-Type', 'text/html'), ('Content-Length', str(len(content)))]
+    start_response(status, response_headers)
+    yield content.encode('utf8')
